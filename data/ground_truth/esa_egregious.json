@@ -1,0 +1,102 @@
+{
+  "case_name": "ESA Voucher Documented Misuse",
+  "source": "ProPublica, AZ Governor Reports, Auditor Findings",
+  "program": "Empowerment Scholarship Accounts (ESA)",
+  "annual_budget": 1000000000,
+  "documented_categories": {
+    "ski_equipment": {
+      "examples": [
+        {
+          "item": "High-end skis",
+          "amount": 1695,
+          "merchant": "Arizona Snowbowl",
+          "classification": "non_educational"
+        },
+        {
+          "item": "Ski passes",
+          "amount": 500,
+          "merchant": "Arizona Snowbowl",
+          "classification": "non_educational"
+        }
+      ],
+      "total_documented": 100000,
+      "detection_keywords": ["ski", "snowbowl", "skiing"]
+    },
+    "musical_instruments": {
+      "examples": [
+        {
+          "item": "Grand pianos",
+          "amount": 15000,
+          "merchant": "Piano dealers",
+          "classification": "non_educational"
+        }
+      ],
+      "total_documented": 1000000,
+      "detection_keywords": ["piano", "grand piano"]
+    },
+    "recreational_sports": {
+      "examples": [
+        {
+          "item": "Ninja gym memberships",
+          "amount": 500,
+          "merchant": "Ninja Warrior gyms",
+          "classification": "non_educational"
+        },
+        {
+          "item": "Trampoline park passes",
+          "amount": 300,
+          "merchant": "Trampoline parks",
+          "classification": "non_educational"
+        }
+      ],
+      "total_documented": 500000,
+      "detection_keywords": ["ninja", "trampoline", "bounce", "warrior gym"]
+    },
+    "threshold_gaming": {
+      "description": "Multiple transactions just under $2,000 review threshold",
+      "examples": [
+        {
+          "pattern": "Split purchases",
+          "amounts": [1995, 1990, 1985, 1980],
+          "total": 7950,
+          "detection": "Cluster of near-threshold transactions"
+        }
+      ],
+      "review_threshold": 2000
+    }
+  },
+  "detection_signals": [
+    {
+      "signal": "egregious_keywords",
+      "keywords": ["ski", "snowbowl", "piano", "trampoline", "ninja"],
+      "confidence": 0.95
+    },
+    {
+      "signal": "mcc_denylist",
+      "codes": ["7999", "7941", "7996", "7997", "5941"],
+      "confidence": 0.85
+    },
+    {
+      "signal": "threshold_gaming",
+      "pattern": "3+ transactions in $1800-$1999 range",
+      "confidence": 0.90
+    },
+    {
+      "signal": "seasonal_spike",
+      "pattern": "High spending during non-school months",
+      "confidence": 0.80
+    }
+  ],
+  "policy_context": {
+    "review_threshold": 2000,
+    "auto_approve_below": 2000,
+    "superintendent_oversight": "Tom Horne",
+    "criticism": "Lax oversight, auto-approvals"
+  },
+  "sources": [
+    "ProPublica investigation",
+    "AZ Governor budget reports",
+    "State auditor findings",
+    "News investigations"
+  ]
+}

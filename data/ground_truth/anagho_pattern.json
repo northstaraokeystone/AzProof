@@ -1,0 +1,56 @@
+{
+  "case_name": "Rita Ntusa Anagho Fraud Pattern",
+  "source": "DOJ Plea Agreement",
+  "total_fraud_amount": 70000000,
+  "total_billed": 55000000,
+  "entities_count": 1,
+  "scheme_type": "single_entity_high_volume",
+  "primary_operator": {
+    "name": "Rita Ntusa Anagho",
+    "role": "Clinic Operator",
+    "company": "TUSA Integrated Clinic LLC"
+  },
+  "entity_pattern": {
+    "single_entity": true,
+    "high_volume": true,
+    "service_type": "behavioral_health",
+    "facility_type": "outpatient"
+  },
+  "billing_pattern": {
+    "avg_billed_per_claim": 20000,
+    "aihp_concentration": 0.70,
+    "impossible_volume": true,
+    "claims_per_day": 50,
+    "service_types": ["behavioral", "therapy", "counseling"]
+  },
+  "detection_signals": [
+    {
+      "signal": "billing_velocity",
+      "threshold": 30,
+      "actual": 50,
+      "description": ">50 claims/day (physically impossible)"
+    },
+    {
+      "signal": "aihp_concentration",
+      "threshold": 0.80,
+      "actual": 0.70,
+      "description": "High AIHP concentration"
+    },
+    {
+      "signal": "compression_ratio",
+      "threshold": 0.40,
+      "actual": 0.25,
+      "description": "Very low compression (irregular patterns)"
+    }
+  ],
+  "timeline": {
+    "scheme_start": "2020",
+    "scheme_peak": "2022",
+    "detection": "2023",
+    "plea": "2024"
+  },
+  "impact": {
+    "medicaid_loss": 55000000,
+    "patients_affected": "hundreds"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "case_name": "Farrukh Jarar Ali Fraud Network",
+  "source": "DOJ Indictment 2025",
+  "total_fraud_amount": 564000000,
+  "total_billed": 650000000,
+  "entities_count": 41,
+  "scheme_type": "shell_llc_network",
+  "primary_operator": {
+    "name": "Farrukh Jarar Ali",
+    "location": "Pakistan",
+    "role": "Network Orchestrator",
+    "company": "ProMD Solutions"
+  },
+  "entity_pattern": {
+    "shared_principals": true,
+    "registration_burst": true,
+    "registration_window_days": 365,
+    "service_type": "addiction_treatment",
+    "facility_type": "sober_living"
+  },
+  "billing_pattern": {
+    "avg_billed_per_claim": 15000,
+    "aihp_concentration": 0.85,
+    "ghost_claims_rate": 0.40,
+    "service_types": ["addiction", "behavioral", "outpatient"]
+  },
+  "detection_signals": [
+    {
+      "signal": "shell_cluster_size",
+      "threshold": 5,
+      "actual": 41,
+      "description": "41+ LLCs from single operator"
+    },
+    {
+      "signal": "shared_principals",
+      "threshold": 2,
+      "actual": 41,
+      "description": "All entities share common principal"
+    },
+    {
+      "signal": "registration_burst",
+      "threshold": 5,
+      "actual": 30,
+      "description": "30+ entities registered in 12 months"
+    },
+    {
+      "signal": "combined_billing",
+      "threshold": 10000000,
+      "actual": 564000000,
+      "description": "$564M combined billing"
+    },
+    {
+      "signal": "aihp_concentration",
+      "threshold": 0.80,
+      "actual": 0.85,
+      "description": ">85% AIHP claims"
+    }
+  ],
+  "timeline": {
+    "scheme_start": "2019",
+    "scheme_peak": "2021-2022",
+    "detection": "2024",
+    "indictment": "2025"
+  },
+  "impact": {
+    "patients_exploited": "thousands",
+    "tribal_communities": ["Navajo Nation", "Salt River Pima-Maricopa"],
+    "deaths_linked": "dozens"
+  }
+}

@@ -1,0 +1,90 @@
+# AzProof v1.0 Manifest
+# Arizona Receipts-Native Fraud Detection System
+
+## Version
+v1.0
+
+## Status
+READY FOR EXECUTION
+
+## Modules
+
+### Core
+- src/core.py: Foundation (dual_hash, emit_receipt, merkle, StopRule)
+
+### Medicaid
+- src/medicaid/__init__.py: Module exports
+- src/medicaid/ingest.py: AHCCCS claim ingestion
+- src/medicaid/network.py: Provider network graph analysis
+- src/medicaid/aihp.py: American Indian Health Program patterns
+- src/medicaid/billing.py: Billing anomaly detection
+- src/medicaid/shell.py: Shell LLC detection
+
+### Voucher
+- src/voucher/__init__.py: Module exports
+- src/voucher/ingest.py: ESA transaction ingestion
+- src/voucher/category.py: Educational vs non-educational classifier
+- src/voucher/merchant.py: Merchant mapping and flagging
+- src/voucher/patterns.py: Spending pattern detection
+
+### Fiscal
+- src/fiscal/__init__.py: Module exports
+- src/fiscal/revenue.py: Revenue flow tracking
+- src/fiscal/policy.py: Policy impact attribution
+- src/fiscal/deficit.py: Deficit causation analysis
+
+### Entropy
+- src/entropy/__init__.py: Module exports
+- src/entropy/compression.py: Compression ratio as fraud signal
+- src/entropy/network.py: Network entropy calculation
+- src/entropy/temporal.py: Time-series entropy
+
+### Loop
+- src/loop/__init__.py: Module exports
+- src/loop/cycle.py: Main SENSE->ACTUATE cycle
+- src/loop/sense.py: Receipt stream queries
+- src/loop/harvest.py: Gap collection
+- src/loop/genesis.py: Helper blueprint creation
+- src/loop/gate.py: HITL approval management
+- src/loop/effectiveness.py: Helper measurement
+
+### Simulation
+- src/sim.py: Monte Carlo harness (6 scenarios)
+
+## Configuration
+- spec.md: Inputs, outputs, receipts, SLOs
+- ledger_schema.json: Hash strategy, receipt types
+- cli.py: Command-line interface
+
+## Data
+- data/ground_truth/ali_network.json: Farrukh Ali $564M case structure
+- data/ground_truth/anagho_pattern.json: Rita Anagho $55-70M pattern
+- data/ground_truth/esa_egregious.json: Documented ESA misuse cases
+
+## Tests
+- tests/conftest.py: Pytest fixtures
+- tests/test_core.py: Core module tests
+- tests/test_medicaid.py: Medicaid module tests
+- tests/test_voucher.py: Voucher module tests
+- tests/test_fiscal.py: Fiscal module tests
+- tests/test_entropy.py: Entropy module tests
+- tests/test_loop.py: Loop module tests
+- tests/test_sim_scenarios.py: Scenario tests
+
+## Gates
+- gate_t2h.sh: Skeleton validation
+- gate_t24h.sh: MVP validation
+- gate_t48h.sh: Hardened validation
+
+## SLOs
+- Detection Precision: >= 0.85
+- Detection Recall: >= 0.90
+- False Positive Rate: <= 0.15
+- Ingest Latency: <= 50ms p95
+- Detection Latency: <= 1000ms p95
+
+## Key Insight
+Fraud is INCOMPRESSIBLE. Legitimate operations follow patterns.
+Compression ratio = fraud indicator.
+
+No receipt -> not real. Ship at T+48h or kill.

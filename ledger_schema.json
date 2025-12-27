@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AzProof Receipt Ledger Schema",
+  "description": "Schema for AzProof fraud detection receipt ledger",
+  "version": "1.0",
+  "tenant_id": "azproof",
+  "hash_strategy": {
+    "algorithm": "dual",
+    "format": "sha256:blake3",
+    "description": "Dual hash using SHA256 and BLAKE3 separated by colon"
+  },
+  "receipt_types": {
+    "medicaid_ingest": {
+      "description": "AHCCCS claim ingestion receipt",
+      "required_fields": ["claim_hash", "provider_id", "aihp_flag", "billed_amount"]
+    },
+    "network_analysis": {
+      "description": "Provider network graph analysis",
+      "required_fields": ["n_providers", "n_edges", "n_clusters", "network_entropy", "flagged_hubs"]
+    },
+    "aihp_flag": {
+      "description": "American Indian Health Program exploitation detection",
+      "required_fields": ["provider_id", "aihp_concentration", "geographic_mismatch", "recruitment_score", "risk_level"]
+    },
+    "shell_detection": {
+      "description": "Shell LLC cluster detection",
+      "required_fields": ["cluster_id", "n_entities", "shared_principals", "combined_billing", "registration_burst", "risk_level"]
+    },
+    "billing_anomaly": {
+      "description": "Billing pattern anomaly detection",
+      "required_fields": ["provider_id", "anomaly_type", "metric_value", "baseline_value", "deviation_sigma", "risk_level"]
+    },
+    "voucher_category": {
+      "description": "ESA transaction educational classification",
+      "required_fields": ["txn_id", "category", "confidence", "mcc", "merchant_name", "amount"]
+    },
+    "merchant_flag": {
+      "description": "Suspicious merchant detection",
+      "required_fields": ["merchant_id", "merchant_name", "flag_reason", "total_spend", "txn_count", "front_score"]
+    },
+    "voucher_pattern": {
+      "description": "Spending pattern detection",
+      "required_fields": ["account_id", "pattern_type", "evidence", "risk_level"]
+    },
+    "fiscal_analysis": {
+      "description": "Revenue/policy/deficit analysis",
+      "required_fields": ["analysis_type", "period", "current_value", "prior_value", "attribution"]
+    },
+    "entropy_analysis": {
+      "description": "Entropy-based anomaly detection",
+      "required_fields": ["analysis_type", "domain", "entropy_value", "baseline_value", "anomaly_flag"]
+    },
+    "gap": {
+      "description": "Manual intervention gap",
+      "required_fields": ["problem_type", "domain", "time_to_resolve_ms", "resolution_steps", "could_automate", "automation_confidence"]
+    },
+    "helper_blueprint": {
+      "description": "Automation helper blueprint",
+      "required_fields": ["blueprint_id", "origin", "trigger", "action", "parameters", "validation", "risk_score", "requires_approval", "status"]
+    },
+    "loop_cycle": {
+      "description": "Meta-loop cycle metrics",
+      "required_fields": ["cycle_id", "receipts_processed", "gaps_harvested", "helpers_proposed", "helpers_deployed", "entropy_delta"]
+    }
+  },
+  "base_receipt": {
+    "type": "object",
+    "required": ["receipt_type", "ts", "tenant_id", "payload_hash"],
+    "properties": {
+      "receipt_type": {
+        "type": "string",
+        "description": "Type of receipt"
+      },
+      "ts": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO8601 timestamp"
+      },
+      "tenant_id": {
+        "type": "string",
+        "const": "azproof",
+        "description": "Tenant identifier"
+      },
+      "payload_hash": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}:[a-f0-9]{64}$",
+        "description": "Dual hash in sha256:blake3 format"
+      }
+    }
+  },
+  "risk_levels": ["low", "medium", "high", "critical"],
+  "anomaly_types": ["impossible_volume", "low_compression", "upcoding", "velocity_spike"],
+  "voucher_categories": ["educational", "non_educational", "questionable"],
+  "pattern_types": ["threshold_gaming", "seasonal_spike", "peer_deviation", "egregious_item"],
+  "helper_statuses": ["proposed", "approved", "deployed", "retired"]
+}
